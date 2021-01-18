@@ -9,7 +9,7 @@ Scopo del progetto è mostrare le potenzialità del reinforcement learning per s
 ![alt text](https://github.com/emanuele-progr/RL-multiagente/blob/main/start.jpeg)
 
 
-Librerie principali necessarie:
--Pygame
--Keras
+Librerie principali necessarie:\
+-Pygame\
+-Keras\
 -Tensorflow
