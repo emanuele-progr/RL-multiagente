@@ -46,10 +46,10 @@ class Game:
 
     def __init__(self):
 
-        self.num_agents = 4
+        self.num_agents = 2
         self.bump = 0
         self.step_bump = 0
-        self.num_landmarks = 4
+        self.num_landmarks = 2
         self.state_size = (self.num_agents + self.num_landmarks) * 2
         self.grid_size = 8
         self.render_flag = True
@@ -142,7 +142,9 @@ class Game:
 
         cells = [(i, j) for i in range(0, self.grid_size) for j in range(0, self.grid_size)]
 
-        positions_idx = [3, 14, 17, 31, 40, 47, 56, 63]
+        #positions_idx = [3, 14, 17, 31, 40, 47, 56, 63]
+
+        positions_idx = [3, 14, 56, 63]
 
         return [cells, positions_idx]
 

@@ -29,6 +29,7 @@ class Agent(object):
 
         elif self.memory_model == 'PER':
             self.memory = PER(arguments['memory_capacity'], arguments['prioritization_scale'])
+            self.memory2 = Memory(arguments['memory_capacity'])
 
         else:
             print('Invalid memory model!')
@@ -133,6 +134,7 @@ class Agent(object):
         elif self.memory_model == 'PER':
             _, _, errors = self.find_targets_per([[0, sample]])
             self.memory.remember(sample, errors[0])
+            self.memory2.remember(sample)
 
         else:
             print('Invalid memory model!')
