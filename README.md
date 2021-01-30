@@ -7,7 +7,7 @@ Per maggiori dettagi, consultare il report dettagliato "MARLproject.pdf".
 **environment, n = 2**
 
 
-![alt text](https://github.com/emanuele-progr/RL-multiagente/blob/main/start.jpeg)
+![alt text](https://github.com/emanuele-progr/RL-multiagente/blob/main/start.jpeg) ![alt text](https://github.com/emanuele-progr/RL-multiagente/blob/main/start3.jpeg)
 
 
 Librerie principali necessarie:\
