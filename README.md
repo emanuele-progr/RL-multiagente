@@ -4,7 +4,7 @@ Scopo del progetto è mostrare le potenzialità del reinforcement learning per s
 Per maggiori dettagi, consultare il report dettagliato "MARLproject.pdf".
 
 
-**environment, n = 2**
+**environment, n = 2, n = 3**
 
 
 ![alt text](https://github.com/emanuele-progr/RL-multiagente/blob/main/start.jpeg) ![alt text](https://github.com/emanuele-progr/RL-multiagente/blob/main/start3.jpeg)
