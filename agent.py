@@ -12,6 +12,10 @@ MAX_BETA = 1.0
 
 
 class Agent(object):
+
+    # batch sample format: array[landmark1_posx, landmark1_posy, ... ,landmarkN_posx, landmarkN_posy, agent1_posx, agent1_posy, .... , agentN_posx, agentN_posy],
+    # [action1, .., actionN], reward, array[ nextstate ], done
+
     epsilon = MAX_EPSILON
     beta = MIN_BETA
 
@@ -34,7 +38,6 @@ class Agent(object):
         else:
             print('Invalid memory model!')
 
-        self.target_type = arguments['target_type']
         self.update_target_frequency = arguments['target_frequency']
         self.max_exploration_step = arguments['maximum_exploration']
         self.batch_size = arguments['batch_size']
@@ -76,10 +79,7 @@ class Agent(object):
             if done:
                 t[a] = r
             else:
-                if self.target_type == 'DQN':
-                    t[a] = r + self.gamma * np.amax(pTarget_[i])
-                else:
-                    print('Invalid type for target network!')
+                t[a] = r + self.gamma * np.amax(pTarget_[i])
 
             x[i] = s
             y[i] = t
@@ -96,6 +96,7 @@ class Agent(object):
         p = self.brain.predict(states)
         #p_ = self.brain.predict(states_)
         pTarget_ = self.brain.predict(states_, target=True)
+        print(pTarget_)
 
         x = np.zeros((batch_len, self.state_size))
         y = np.zeros((batch_len, self.action_size))
@@ -104,20 +105,18 @@ class Agent(object):
         for i in range(batch_len):
             o = batch[i]
             s = o[0]
-            a = o[1][self.agent_index]
-            r = o[2]
+            a = o[1][self.agent_index]  # agent action in a sample of batch
+            r = o[2]   # reward
             s_ = o[3]
             done = o[4]
 
-            t = p[i]
+            t = p[i]  # Q-values of each action from state i
             old_value = t[a]
             if done:
                 t[a] = r
             else:
-                if self.target_type == 'DQN':
-                    t[a] = r + self.gamma * np.amax(pTarget_[i])
-                else:
-                    print('Invalid type for target network!')
+
+                t[a] = r + self.gamma * np.amax(pTarget_[i])
 
             x[i] = s
             y[i] = t
@@ -160,14 +159,15 @@ class Agent(object):
         if self.memory_model == 'UER':
             batch = self.memory.sample(self.batch_size)
             x, y = self.find_targets_uer(batch)
+            # returns states and action value function per state
             self.brain.train(x, y)
 
         elif self.memory_model == 'PER':
             [batch, batch_indices, batch_priorities] = self.memory.sample(self.batch_size)
             x, y, errors = self.find_targets_per(batch)
 
-            normalized_batch_priorities = [float(i) / sum(batch_priorities) for i in batch_priorities]
-            importance_sampling_weights = [(self.batch_size * i) ** (-1 * self.beta)
+            normalized_batch_priorities = [float(i) / sum(batch_priorities) for i in batch_priorities]   # probability
+            importance_sampling_weights = [(self.batch_size * i) ** (-1 * self.beta)                     # weights
                                            for i in normalized_batch_priorities]
             normalized_importance_sampling_weights = [float(i) / max(importance_sampling_weights)
                                                       for i in importance_sampling_weights]

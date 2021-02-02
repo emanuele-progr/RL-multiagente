@@ -45,6 +45,7 @@ class Setup(object):
                     actions.append(agent.greedy_actor(state))
                 next_state, reward, done = self.game.step(actions)
 
+
                 # converting list of positions to an array
                 next_state = np.array(next_state)
                 next_state = next_state.ravel()
@@ -64,7 +65,7 @@ class Setup(object):
                 reward_all += reward
 
                 self.game.render()
-                if episode_num >= 4950:
+                if episode_num >= 2500:
                     self.game.record_step(episode_num, time_step)
 
             rewards_list.append(reward_all)
@@ -80,7 +81,7 @@ class Setup(object):
 
             if not self.test:
                 for agent in agents:
-                    if episode_num ==7000:
+                    if episode_num ==1500:
                         agent.memory_model = "UER"
                         agent.memory = agent.memory2
                 if episode_num % 2 == 0:
@@ -107,11 +108,10 @@ if __name__ == "__main__":
                         help='Optimization method')
     parser.add_argument('-m', '--memory-capacity', default=10000, type=int, help='Memory capacity')
     parser.add_argument('-b', '--batch-size', default=64, type=int, help='Batch size')
-    parser.add_argument('-t', '--target-frequency', default=1000, type=int,
+    parser.add_argument('-t', '--target-frequency', default=2000, type=int,
                         help='Number of steps between the updates of target network')
     parser.add_argument('-x', '--maximum-exploration', default=100000, type=int, help='Maximum exploration step')
     parser.add_argument('-nn', '--number-nodes', default=256, type=int, help='Number of nodes in each layer of NN')
-    parser.add_argument('-tt', '--target-type', choices=['DQN'], default='DQN')
     parser.add_argument('-mt', '--memory', choices=['UER', 'PER'], default='PER')
     parser.add_argument('-pl', '--prioritization-scale', default=0.5, type=float, help='Scale for prioritization')
     parser.add_argument('-test', '--test', action='store_true', help='Enable the test phase if "store_false"')

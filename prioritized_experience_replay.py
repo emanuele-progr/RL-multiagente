@@ -24,7 +24,7 @@ class Memory(object):
         sample_batch = []
         sample_batch_indices = []
         sample_batch_priorities = []
-        num_segments = self.memory.total() / n
+        num_segments = self.memory.total() / n     # priority total / n
 
         for i in range(n):
             left = num_segments * i
